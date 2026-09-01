@@ -19,9 +19,11 @@ const hint =
     document.getElementById("hint");
 
 
+
 let W = window.innerWidth;
 
 let H = window.innerHeight;
+
 
 
 let DPR =
@@ -31,6 +33,7 @@ let DPR =
     );
 
 
+
 const cores =
     navigator.hardwareConcurrency || 4;
 
@@ -38,25 +41,31 @@ const memory =
     navigator.deviceMemory || 4;
 
 
+
 const lowEndDevice =
     cores <= 4 ||
     memory <= 2;
+
 
 
 const MAX_HEARTS =
     lowEndDevice ? 2 : 3;
 
 
+
 const PARTICLES_PER_HEART =
     lowEndDevice ? 70 : 110;
+
 
 
 const STAR_DIVIDER =
     lowEndDevice ? 5000 : 3500;
 
 
+
 const HEART_LIFE =
     10000;
+
 
 
 let stars = [];
@@ -64,6 +73,7 @@ let stars = [];
 let particles = [];
 
 let hearts = [];
+
 
 
 const confession = [
@@ -83,10 +93,13 @@ const confession = [
 ];
 
 
+
 let currentMessage = 0;
 
 
+
 let started = false;
+
 
 
 function setupCanvas(
@@ -117,6 +130,7 @@ function setupCanvas(
         0
     );
 }
+
 
 
 function resize() {
@@ -157,9 +171,11 @@ window.addEventListener(
 );
 
 
+
 function createStars() {
 
     stars.length = 0;
+
 
 
     const amount =
@@ -199,6 +215,7 @@ function createStars() {
 }
 
 
+
 function drawStars(time) {
 
     starCtx.clearRect(
@@ -211,6 +228,7 @@ function drawStars(time) {
 
     for (const star of stars) {
 
+        
 
         const alpha =
             Math.max(
@@ -244,9 +262,11 @@ function drawStars(time) {
             )`;
 
 
+
         starCtx.fill();
     }
 }
+
 
 
 function heartPoint(
@@ -285,10 +305,13 @@ function heartPoint(
 }
 
 
+
 function createHeart(
     centerX,
     centerY
 ) {
+
+    
 
     if (
         hearts.length >=
@@ -297,6 +320,7 @@ function createHeart(
 
         const oldHeart =
             hearts.shift();
+
 
 
         particles =
@@ -308,8 +332,10 @@ function createHeart(
     }
 
 
+
     const scale =
         Math.min(W, H) / 42;
+
 
 
     const heart = {
@@ -327,12 +353,14 @@ function createHeart(
     );
 
 
+
     for (
         let i = 0;
         i < PARTICLES_PER_HEART;
         i++
     ) {
 
+        
 
         const t =
             (
@@ -348,8 +376,15 @@ function createHeart(
                 scale
             );
 
-      
+
+
+        const spread =
+            (
+                Math.random() -
+                .5
+            ) *
             3;
+
 
 
         const angle =
@@ -418,6 +453,7 @@ function createHeart(
 }
 
 
+
 function drawParticles(time) {
 
     particleCtx.clearRect(
@@ -426,6 +462,7 @@ function drawParticles(time) {
         W,
         H
     );
+
 
 
     for (
@@ -450,6 +487,7 @@ function drawParticles(time) {
         }
     }
 
+    
 
     particles =
         particles.filter(
@@ -458,7 +496,8 @@ function drawParticles(time) {
                     particle.heart
                 )
         );
-  
+
+
 
     for (
         const particle
@@ -468,6 +507,7 @@ function drawParticles(time) {
         const age =
             time -
             particle.born;
+
 
 
         const pull =
@@ -490,7 +530,8 @@ function drawParticles(time) {
                 particle.y
             ) *
             pull;
-      
+
+
 
         const pulse =
             1 +
@@ -499,6 +540,7 @@ function drawParticles(time) {
                 particle.phase
             ) *
             .25;
+
 
 
         const remaining =
@@ -520,6 +562,7 @@ function drawParticles(time) {
                 : 1;
 
 
+
         particleCtx.beginPath();
 
 
@@ -531,6 +574,7 @@ function drawParticles(time) {
             0,
             Math.PI * 2
         );
+
 
 
         particleCtx.fillStyle =
@@ -545,6 +589,7 @@ function drawParticles(time) {
         particleCtx.fill();
     }
 }
+
 
 
 function showMessage(
@@ -567,7 +612,8 @@ function showMessage(
             currentMessage
         ];
 
-  
+
+
     const safeX =
         Math.max(
             70,
@@ -603,6 +649,7 @@ function showMessage(
     );
 
 
+
     setTimeout(
         () => {
 
@@ -626,13 +673,16 @@ function showMessage(
 }
 
 
+
 window.addEventListener(
     "pointerdown",
 
-    function(event) {
-      
+    function (event) {
+
+        
 
         hint.classList.add("hide");
+
 
 
         createHeart(
@@ -641,10 +691,12 @@ window.addEventListener(
         );
 
 
+
         showMessage(
             event.clientX,
             event.clientY
         );
+
 
 
         currentMessage =
@@ -660,7 +712,9 @@ window.addEventListener(
 );
 
 
+
 resize();
+
 
 
 function animationLoop(time) {
@@ -668,7 +722,6 @@ function animationLoop(time) {
     drawStars(time);
 
     drawParticles(time);
-
 
     requestAnimationFrame(
         animationLoop
