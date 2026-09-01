@@ -98,7 +98,7 @@ const confession = [
 
     "I like you💘🥰",
 
-    "But..."
+    "But...",
 
     "I don't expect you to answer it right away. I just only wanted you to know.",
 
